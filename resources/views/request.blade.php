@@ -177,6 +177,28 @@
             </p>
             
         </ul>
+
+        <li>Old Input</li>
+        <p>
+            Laravel allows you to keep input from one request during the next request. This feature is particularly useful for re-populating forms after detecting validation errors. However, if you are using Laravel's included validation features, it is possible that you will not need to manually use these session input flashing methods directly, as some of Laravel's built-in validation facilities will call them automatically.
+        </p>
+        <ul>
+            <li>Flashing Input to session</li>
+            <p>
+                The flash method on the Illuminate\Http\Request class will flash the current input to the session so that it is available during the user's next request to the application:
+                <br>
+                You may also use the flashOnly and flashExcept methods to flash a subset of the request data to the session. These methods are useful for keeping sensitive information such as passwords out of the session:
+            </p>
+
+            <li>Retrieving Old Input</li>
+            <p>
+                To retrieve flashed input from the previous request, invoke the old method on an instance of Illuminate\Http\Request. The old method will pull the previously flashed input data from the session:
+                <br>
+                Laravel also provides a global old helper. If you are displaying old input within a Blade template, it is more convenient to use the old helper to repopulate the form. If no old input exists for the given field, null will be returned:
+            </p>
+            
+        </ul>
+        
                 
     </ol>
 </body>

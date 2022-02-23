@@ -371,7 +371,40 @@ class UserController extends Controller
  
         (2) $request->mergeIfMissing(['votes' => 0]);
 
+        -------------------------------------------------------------
+        OLD Input:
+        *********
+
+        Flashing Input to session:
+        -------------------------
+
+        (1) $request->flash();
+
+        (2) $request->flashOnly(['username', 'email']);
         
+        (3) $request->flashExcept('password');
+
+
+        Flashing Input Then Redirecting:
+        -------------------------------
+        
+        (1) return redirect('form')->withInput();
+
+        (2) return redirect()->route('user.create')->withInput();
+        
+        (3) return redirect('form')->withInput(
+                $request->except('password')
+            );
+
+
+        Retrieving Old Input:
+        --------------------
+        
+        (1) $username = $request->old('username');
+
+        (2) <input type="text" name="username" value="{{ old('username') }}">
+        
+
  
 
 

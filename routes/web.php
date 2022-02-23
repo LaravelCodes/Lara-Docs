@@ -25,39 +25,6 @@ Route::prefix('controller')->group(function () {
 });
 Route::view('/request', 'request');
 
-
-/*
-    Route::get('/user', [UserController::class, 'index']);
-
-    Route::get($uri, $callback);
-    Route::post($uri, $callback);
-    Route::put($uri, $callback);
-    Route::patch($uri, $callback);
-    Route::delete($uri, $callback);
-    Route::options($uri, $callback);
-
-    Route::match(['get', 'post'], '/', function () {
-        //
-    });
-    
-    Route::any('/', function () {
-        //
-    });
-
-*/
-/****************************************************************/
-/* Dependency Injection */
-// ********************
-
-    use Illuminate\Http\Request;
- 
-    Route::get('/users', function (Request $request) {
-        return $request->all();
-    });
-
-/****************************************************************/
-/* CSRF Protection */
-// ***************
 /****************************************************************/
 /* Redirect Routes */
 // ***************

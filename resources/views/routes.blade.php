@@ -7,83 +7,361 @@
     <style>
         li{font-weight: bold; font-family: Helvetica; margin: 10px 0 0 0}
         p{margin: 5px 0px 15px 0px; font-family: arial}
+        table, td{border: 1px solid black; border-collapse:collapse; padding: 5px}
+
     </style>
 </head>
 <body>
     <h1>1 - Routes:</h1>
-    <ol>
-        <li>Basic Route (URL and Closure)</li>
-        <p>
-            When defining multiple routes that share the same URI, routes using the get, post, put, patch, delete, and options methods should be defined before routes using the any, match, and redirect methods. This ensures the incoming request is matched with the correct route.
-        </p>
 
-        <li>Dependency Injection</li>
-        <p>
-            You may type-hint any dependencies required by your route in your route's callback signature. The declared dependencies will automatically be resolved and injected into the callback by the Laravel service container.
-        </p>
-        
-        <li>CSRF Protection</li>
-        <p>
-            Remember, any HTML forms pointing to POST, PUT, PATCH, or DELETE routes that are defined in the web routes file should include a CSRF token field. Otherwise, the request will be rejected. @csrf
-        </p>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Topic</th>
+                <th>Definition</th>
+                <th>Code</th>
+                <th>Command / Important</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="5"><h2>A - Basic Routing</h2></td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Basic Route (URL and Closure)</td>
+                <td>
+                    The most basic Laravel routes accept a URI and a closure, providing a very simple and expressive method of defining routes and behavior without complicated routing configuration files:
+                </td>
+                <td>
+<pre>
+use Illuminate\Support\Facades\Route;
+                    
+Route::get('/greeting', function () {
+    return 'Hello World';
+});
+</pre>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>The Default Route Files</td>
+                <td>
+                    All Laravel routes are defined in your route files, which are located in the routes directory. These files are automatically loaded by your application's App\Providers\RouteServiceProvider. The routes/web.php file defines routes that are for your web interface. These routes are assigned the web middleware group, which provides features like session state and CSRF protection. The routes in routes/api.php are stateless and are assigned the api middleware group.
+                </td>
+                <td>
+<pre>
+use App\Http\Controllers\UserController;
+                    
+Route::get('/user', [UserController::class, 'index']);
+</pre>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Available Router Methods</td>
+                <td>
+                    The router allows you to register routes that respond to any HTTP verb.
+                </td>
+                <td>
+<pre>
+Route::get($uri, $callback);
+                    
+Route::post($uri, $callback);
 
-        <li>Redirect Routes</li>
-        <p>
-            If you are defining a route that redirects to another URI, you may use the Route::redirect method. This method provides a convenient shortcut so that you do not have to define a full route or controller for performing a simple redirect. 
-            <br>
-            By default, Route::redirect returns a 302 status code. You may customize the status code using the optional third parameter. <br>
-            When using route parameters in redirect routes, the following parameters are reserved by Laravel and cannot be used: destination and status.
-        </p>
-        
-        <li>View Routes</li>
-        <p>
-            If your route only needs to return a view, you may use the Route::view method. The view method accepts a URI as its first argument and a view name as its second argument. In addition, you may provide an array of data to pass to the view as an optional third argument. 
-            <br>
-            When using route parameters in view routes, the following parameters are reserved by Laravel and cannot be used: view, data, status, and headers.
-        </p>
-        
-        <li>Route Parameters:</li>
-        <ul>
-            <li>Required Parameters</li>
-            <p>
-                Sometimes you will need to capture segments of the URI within your route. You may do so by defining route parameters. You may define as many route parameters as required by your route. 
-                <br>
-                Route parameters are always encased within {} braces and should consist of alphabetic characters. Underscores (_) are also acceptable within route parameter names. Route parameters are injected into route callbacks / controllers based on their order - the names of the route callback / controller arguments do not matter.
-            </p>
-            
-            <li>Parameters and dependency Injection</li>
-            <p>
-                If your route has dependencies that you would like the Laravel service container to automatically inject into your route's callback, you should list your route parameters after your dependencies.
-            </p>
-            
-            <li>Optional Parameters</li>
-            <p>
-                Occasionally you may need to specify a route parameter that may not always be present in the URI. You may do so by placing a ? mark after the parameter name. Make sure to give the route's corresponding variable a default value.
-            </p>
-            
-        </ul>
-        
-        <li>Regular Expression Constraints:</li>
-        <ul>
-            <li>Global Constraints</li>
-            <p>
-                You may constrain the format of your route parameters using the where method on a route instance. The where method accepts the name of the parameter and a regular expression defining how the parameter should be constrained 
-                <br>
-                For convenience, some commonly used regular expression patterns have helper methods that allow you to quickly add pattern constraints to your routes. 
-                <br>
-                If you would like a route parameter to always be constrained by a given regular expression, you may use the pattern method. You should define these patterns in the boot method of your App\Providers\RouteServiceProvider class. Once the pattern has been defined, it is automatically applied to all routes using that parameter name.
-            </p>
-            
-            <li>Encoded Forward Slash</li>
-            <p>
-                The Laravel routing component allows all characters except / to be present within route parameter values. You must explicitly allow / to be part of your placeholder using a where condition regular expression. 
-                <br>
-                Encoded forward slashes are only supported within the last route segment.
-            </p>
-            
-        </ul>
+Route::put($uri, $callback);
 
-        <li>Named Routes:</li>
+Route::patch($uri, $callback);
+
+Route::delete($uri, $callback);
+
+Route::options($uri, $callback);
+</pre>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Match / Any Methods</td>
+                <td>
+                    Sometimes you may need to register a route that responds to multiple HTTP verbs. You may do so using the match method. Or, you may even register a route that responds to all HTTP verbs using the any method:
+                </td>
+                <td>
+<pre>
+Route::match(['get', 'post'], '/', function () {
+    //
+});
+
+Route::any('/', function () {
+    //
+});
+</pre>
+                </td>
+                <td>
+                    When defining multiple routes that share the same URI, routes using the get, post, put, patch, delete, and options methods should be defined before routes using the any, match, and redirect methods. This ensures the incoming request is matched with the correct route.
+                </td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Dependency Injection</td>
+                <td>
+                    You may type-hint any dependencies required by your route in your route's callback signature. The declared dependencies will automatically be resolved and injected into the callback by the Laravel service container.
+                </td>
+                <td>
+<pre>
+use Illuminate\Http\Request;
+                    
+Route::get('/users', function (Request $request) {
+    // ...
+});
+</pre>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>CSRF Protection</td>
+                <td>
+                    Remember, any HTML forms pointing to POST, PUT, PATCH, or DELETE routes that are defined in the web routes file should include a CSRF token field. Otherwise, the request will be rejected. 
+                </td>
+                <td>
+<pre>
+&lt;form method="POST" action="/profile">
+
+    {{"@csrf"}}
+
+&lt;/form>
+</pre>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Redirect Routes</td>
+                <td>
+                    If you are defining a route that redirects to another URI, you may use the Route::redirect method. This method provides a convenient shortcut so that you do not have to define a full route or controller for performing a simple redirect
+                    <br>
+                    By default, Route::redirect returns a 302 status code. You may customize the status code using the optional third parameter:
+                    <br>
+                    Or, you may use the Route::permanentRedirect method to return a 301 status code:
+                </td>
+                <td>
+<pre>
+Route::redirect('/here', '/there');
+                    
+Route::redirect('/here', '/there', 301);
+
+Route::permanentRedirect('/here', '/there');
+</pre>
+                </td>
+                <td>
+                    When using route parameters in redirect routes, the following parameters are reserved by Laravel and cannot be used: destination and status.
+                </td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>View Routes</td>
+                <td>
+                    If your route only needs to return a view, you may use the Route::view method. Like the redirect method, this method provides a simple shortcut so that you do not have to define a full route or controller. The view method accepts a URI as its first argument and a view name as its second argument. In addition, you may provide an array of data to pass to the view as an optional third argument:
+                </td>
+                <td>
+<pre>
+Route::view('/welcome', 'welcome');
+
+Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
+</pre>
+                </td>
+                <td>
+                    When using route parameters in view routes, the following parameters are reserved by Laravel and cannot be used: view, data, status, and headers.
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5"><h2>B - Route Parameters</h2></td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Required Parameters</td>
+                <td>
+                    Sometimes you will need to capture segments of the URI within your route. For example, you may need to capture a user's ID from the URL. You may do so by defining route parameters:
+                </td>
+                <td>
+<pre>
+Route::get('/user/{id}', function ($id) {
+    return 'User '.$id;
+});
+
+<!-- Route::get('/posts/{post}/comments/{comment}', function ($postId, $commentId) {
+    //
+}); -->
+</pre>
+                </td>
+                <td>
+                    Route parameters are always encased within {} braces and should consist of alphabetic characters. Underscores (_) are also acceptable within route parameter names. Route parameters are injected into route callbacks / controllers based on their order - the names of the route callback / controller arguments do not matter.
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Parameters & Dependency Injection</td>
+                <td>
+                    If your route has dependencies that you would like the Laravel service container to automatically inject into your route's callback, you should list your route parameters after your dependencies:
+                </td>
+                <td>
+<pre>
+use Illuminate\Http\Request;
+
+Route::get('/user/{id}', function (Request $request, $id) {
+    return 'User '.$id;
+});
+</pre>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Optional Parameters</td>
+                <td>
+                    Occasionally you may need to specify a route parameter that may not always be present in the URI. You may do so by placing a ? mark after the parameter name. Make sure to give the route's corresponding variable a default value:
+                </td>
+                <td>
+<pre>
+Route::get('/user/{name?}', function ($name = null) {
+    return $name;
+});
+
+Route::get('/user/{name?}', function ($name = 'John') {
+    return $name;
+});
+</pre>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Regular Expression Constraints</td>
+                <td>
+                    You may constrain the format of your route parameters using the where method on a route instance. The where method accepts the name of the parameter and a regular expression defining how the parameter should be constrained
+                    <br>
+                    For convenience, some commonly used regular expression patterns have helper methods that allow you to quickly add pattern constraints to your routes:
+                </td>
+                <td>
+<pre>
+Route::get('/user/{name}', function ($name) {
+    //
+})->where('name', '[A-Za-z]+');
+ 
+Route::get('/user/{id}', function ($id) {
+    //
+})->where('id', '[0-9]+');
+ 
+Route::get('/user/{id}/{name}', function ($id, $name) {
+    //
+})->where(['id' => '[0-9]+', 'name' => '[a-z]+']);
+
+OR
+
+Route::get('/user/{id}/{name}', function ($id, $name) {
+    //
+})->whereNumber('id')->whereAlpha('name');
+ 
+Route::get('/user/{name}', function ($name) {
+    //
+})->whereAlphaNumeric('name');
+ 
+Route::get('/user/{id}', function ($id) {
+    //
+})->whereUuid('id');
+</pre>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Global Constraints</td>
+                <td>
+                    If you would like a route parameter to always be constrained by a given regular expression, you may use the pattern method. You should define these patterns in the boot method of your App\Providers\RouteServiceProvider class:
+                </td>
+                <td>
+<pre>
+public function boot()
+{
+    Route::pattern('id', '[0-9]+');
+}
+</pre>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Encoded Forward Slashes</td>
+                <td>
+                    The Laravel routing component allows all characters except / to be present within route parameter values. You must explicitly allow / to be part of your placeholder using a where condition regular expression:
+                </td>
+                <td>
+<pre>
+Route::get('/search/{search}', function ($search) {
+    return $search;
+})->where('search', '.*');
+</pre>
+                </td>
+                <td>
+                    Encoded forward slashes are only supported within the last route segment.
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5"><h2>C - Named Routes</h2></td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Named Routes</td>
+                <td>
+                    Named routes allow the convenient generation of URLs or redirects for specific routes. You may specify a name for a route by chaining the name method onto the route definition:
+                </td>
+                <td>
+<pre>
+Route::get('/user/profile', function () {
+    //
+})->name('profile');
+
+Route::get(
+    '/user/profile',
+    [UserProfileController::class, 'show']
+)->name('profile');
+</pre>
+                </td>
+                <td>
+                    Route names should always be unique.
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Generating URLs To Named Routes</td>
+                <td>
+                    Once you have assigned a name to a given route, you may use the route's name when generating URLs or redirects via Laravel's route and redirect helper functions:
+                </td>
+                <td>
+<pre>
+// Generating URLs...
+$url = route('profile');
+ 
+// Generating Redirects...
+return redirect()->route('profile');
+</pre>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <li>Named Routes:</li>
         <p>
             Named routes allow the convenient generation of URLs or redirects for specific routes. You may specify a name for a route by chaining the name method onto the route definition 
             <br>
