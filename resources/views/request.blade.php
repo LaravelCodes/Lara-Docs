@@ -140,6 +140,41 @@
                 <br>
                 If the input value is present but has an invalid format, an InvalidArgumentException will be thrown; therefore, it is recommended that you validate the input before invoking the date method.
             </p>
+
+            <li>Retrieving A Portion of Input Data</li>
+            <p>
+                If you need to retrieve a subset of the input data, you may use the only and except methods. Both of these methods accept a single array or a dynamic list of arguments:
+                <br>
+                The only method returns all of the key / value pairs that you request; however, it will not return key / value pairs that are not present on the request.
+            </p>
+
+            <li>Determining If Input Is Present</li>
+            <p>
+                You may use the "has" method to determine if a value is present on the request. The has method returns true if the value is present on the request.
+                <br>
+                When given an array, the "has" method will determine if all of the specified values are present:
+                <br>
+                The "whenHas" method will execute the given closure if a value is present on the request:
+                <br>
+                A second closure may be passed to the "whenHas" method that will be executed if the specified value is not present on the request:
+                <br>
+                The "hasAny" method returns true if any of the specified values are present:
+                <br>
+                If you would like to determine if a value is present on the request and is not empty, you may use the "filled" method:
+                <br>
+                The "whenFilled" method will execute the given closure if a value is present on the request and is not empty:
+                <br>
+                A second closure may be passed to the "whenFilled" method that will be executed if the specified value is not "filled":
+                <br>
+                To determine if a given key is absent from the request, you may use the "missing" method:
+            </p>
+
+            <li>Merging Additional Input</li>
+            <p>
+                Sometimes you may need to manually "merge" additional input into the request's existing input data. To accomplish this, you may use the merge method:.
+                <br>
+                The "mergeIfMissing" method may be used to merge input into the request if the corresponding keys do not already exist within the request's input data:
+            </p>
             
         </ul>
                 

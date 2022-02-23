@@ -322,6 +322,58 @@ class UserController extends Controller
         (1) $name = $request->name;
 
 
+        Retrieving A portion of Input Data:
+        ----------------------------------
+        
+        (1) $input = $request->only(['username', 'password']);
+ 
+        (2) $input = $request->only('username', 'password');
+ 
+        (3) $input = $request->except(['credit_card']);
+ 
+        (4) $input = $request->except('credit_card');
+
+
+        Determining If Input Is Present:
+        -------------------------------
+        
+        (1) if ($request->has('name')) { }
+ 
+        (2)  if ($request->has(['name', 'email'])) { }
+ 
+        (3) $request->whenHas('name', function ($input) { });
+ 
+        (4) $request->whenHas('name', function ($input) {
+                // The "name" value is present...
+            }, function () {
+                // The "name" value is not present...
+            });
+        
+        (5) if ($request->hasAny(['name', 'email'])) { }
+
+        (6) if ($request->filled('name')) { }
+
+        (7) $request->whenFilled('name', function ($input) { });
+
+        (8) $request->whenFilled('name', function ($input) {
+                // The "name" value is filled...
+            }, function () {
+                // The "name" value is not filled...
+            });
+
+        (9) if ($request->missing('name')) { }
+
+
+        Merging Additional Inputs:
+        -------------------------------
+        
+        (1) $request->merge(['votes' => 0]);
+ 
+        (2) $request->mergeIfMissing(['votes' => 0]);
+
+        
+ 
+
 
     */
 }
