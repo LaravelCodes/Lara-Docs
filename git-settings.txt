@@ -1,0 +1,3 @@
+git init
+git remote add origin https://github.com/LaravelCodes/Lara-Docs.git
+git push -u origin master
