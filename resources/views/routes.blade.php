@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Laravel</title>
     <style>
-        li{font-weight: bold; font-family: Helvetica; margin: 10px 0 0 0}
-        p{margin: 5px 0px 15px 0px; font-family: arial}
-        table, td{border: 1px solid black; border-collapse:collapse; padding: 5px}
+        table{font-family: Helvetica; border: 1px solid black; border-collapse:collapse;}
+        td {border: 1px solid black; padding: 0.5em;  }
+        th{border: 1px solid black; }
+        td:first-child, pre {font-weight: bold;}
 
     </style>
 </head>
@@ -721,12 +722,12 @@ Route::fallback(function () {
             </tr>
 
             <tr>
-                <th colspan="4"><h2>Rate Limiting</h2></th>    
+                <td colspan="4"><h2>Rate Limiting</h2></td>    
                 <td>Read Docs</td>
             </tr>
 
             <tr>
-                <th colspan="2"><h2>F - Form Method Spoofing</h2></th>    
+                <td colspan="2"><h2>F - Form Method Spoofing</h2></td>    
                 <td>
                     HTML forms do not support PUT, PATCH, or DELETE actions. So, when defining PUT, PATCH, or DELETE routes that are called from an HTML form, you will need to add a hidden _method field to the form. The value sent with the _method field will be used as the HTTP request method:
 
@@ -735,7 +736,7 @@ Route::fallback(function () {
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     </form> -->
 
-                    For convenience, you may use the @method Blade directive to generate the _method input field:
+                    For convenience, you may use the &amp;method Blade directive to generate the _method input field:
 
                     <!-- <form action="/example" method="POST">
                         @method('PUT')
@@ -763,12 +764,12 @@ $action = Route::currentRouteAction(); // string
             </tr>
 
             <tr>
-                <th colspan="4"><h2>Cross-Origin Resource Sharing (CORS)</h2></th>    
+                <td colspan="4"><h2>Cross-Origin Resource Sharing (CORS)</h2></td>    
                 <td>Read Docs</td>
             </tr>
 
             <tr>
-                <th colspan="4"><h2>Route Caching</h2></th>    
+                <td colspan="4"><h2>Route Caching</h2></td>    
                 <td>Read Docs</td>
             </tr>
 
